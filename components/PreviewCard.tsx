@@ -12,6 +12,7 @@ interface PreviewCardProps {
   customScaleOffset?: number;
   customLineHeight?: number;
   isAnalyzing?: boolean;
+  isExporting?: boolean;
   lang?: 'zh' | 'en';
 }
 
@@ -36,6 +37,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
   customScaleOffset = 1,
   customLineHeight = 1.5,
   isAnalyzing = false,
+  isExporting = false,
   lang = 'zh'
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -200,7 +202,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
   return (
     <div 
       ref={cardRef}
-      className={`relative w-full max-w-[500px] mx-auto overflow-hidden shadow-2xl ${getAspectClass(display.aspectRatio)} bg-[#0a0a0a] transition-all duration-700 ${isAnalyzing ? 'scale-[0.97] rounded-[48px]' : 'scale-100'} ${display.bgConfig.texture === 'grain' ? 'texture-grain' : ''}`}
+      className={`relative w-full max-w-[500px] mx-auto ${isExporting ? '' : 'overflow-hidden'} shadow-2xl ${getAspectClass(display.aspectRatio)} bg-[#0a0a0a] transition-all duration-700 ${isAnalyzing ? 'scale-[0.97] rounded-[48px]' : 'scale-100'} ${display.bgConfig.texture === 'grain' ? 'texture-grain' : ''}`}
     >
       {/* 1. 底色层 (Base Color Layer) */}
       <div className="absolute inset-0 z-0 transition-all duration-700" style={bgBaseStyle} />
@@ -234,7 +236,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
       {/* 4. 文字内容层 (Text Layer) - 始终在最顶层 */}
       <div 
         ref={containerRef}
-        className={`absolute inset-0 z-40 flex p-[10%] overflow-hidden ${getLayoutClass(display.style.layout)}`}
+        className={`absolute inset-0 z-40 flex p-[10%] ${isExporting ? '' : 'overflow-hidden'} ${getLayoutClass(display.style.layout)}`}
       >
         <div 
           ref={contentRef}
@@ -261,7 +263,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
       {isAnalyzing && <div className="scan-line"></div>}
 
       <div 
-        className={`absolute inset-0 z-[100] pointer-events-none overflow-hidden transition-all duration-700 ${isShutterClosed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
+        className={`absolute inset-0 z-[100] pointer-events-none ${isExporting ? '' : 'overflow-hidden'} transition-all duration-700 ${isShutterClosed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
         style={{ background: 'linear-gradient(to bottom, #111, #000)' }}
       >
         <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>

@@ -1,11 +1,12 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { 
   Sparkles, Download, Shuffle, Type as TypeIcon, RotateCw, 
   AlignLeft, AlignCenter, Layout, Type, Palette, Frame, MousePointer2, 
   Settings2, Columns, Image as ImageIcon, X, Layers, Sliders, Monitor, Move,
   Copy, Check, Share2, Languages, Brush, Sun, Contrast as ShadowIcon, Box,
-  ChevronDown, Maximize2, Globe, Droplets, SunMedium, Focus
+  ChevronDown, Maximize2, Globe, Droplets, SunMedium, Focus, Key, Save
 } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 import PreviewCard from './components/PreviewCard';
@@ -115,6 +116,13 @@ const App: React.FC = () => {
   const [exportType, setExportType] = useState<'download' | 'copy' | 'share' | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<'parameters' | 'presets' | 'background'>('parameters');
+  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [apiKey, setApiKey] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('gemini_api_key') || '';
+    }
+    return '';
+  });
 
   const cardRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -133,7 +141,8 @@ const App: React.FC = () => {
       fxTitle: "后期特效", shadow: "空间投影", stroke: "边缘描边", texture: "纸张质感",
       layoutParams: "构图细项", xOffset: "水平位移", yOffset: "垂直位移",
       shadowBlur: "阴影模糊", strokeWidth: "描边宽度", tone: "色调",
-      fonts: { modern: "现代", classic: "典雅", hand: "手写", antique: "古风", brush: "泼墨", ink: "灵动" }
+      fonts: { modern: "现代", classic: "典雅", hand: "手写", antique: "古风", brush: "泼墨", ink: "灵动" },
+      apiKey: "API 密钥", apiKeyDesc: "输入您的 Google Gemini API 密钥以启用 AI 功能", apiKeyPlaceholder: "请输入 API 密钥...", saveApiKey: "保存密钥", close: "关闭"
     },
     en: {
       studio: "ArtText Studio Pro",
@@ -148,7 +157,8 @@ const App: React.FC = () => {
       fxTitle: "Post-Processing", shadow: "Drop Shadow", stroke: "Stroke", texture: "Material Texture",
       layoutParams: "Layout Params", xOffset: "X Displacement", yOffset: "Y Displacement",
       shadowBlur: "Shadow Blur", strokeWidth: "Stroke Width", tone: "Tone",
-      fonts: { modern: "Modern", classic: "Classic", hand: "Hand", antique: "Antique", brush: "Brush", ink: "Poetic" }
+      fonts: { modern: "Modern", classic: "Classic", hand: "Hand", antique: "Antique", brush: "Brush", ink: "Poetic" },
+      apiKey: "API Key", apiKeyDesc: "Enter your Google Gemini API key to enable AI features", apiKeyPlaceholder: "Enter API key...", saveApiKey: "Save Key", close: "Close"
     }
   }[lang]), [lang]);
 
@@ -172,6 +182,13 @@ const App: React.FC = () => {
   const updateBgConfig = useCallback((updates: Partial<BackgroundConfig>) => {
     setBgConfig(prev => ({ ...prev, ...updates }));
   }, []);
+
+  const handleSaveApiKey = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('gemini_api_key', apiKey);
+      window.location.reload();
+    }
+  };
 
   const handleAIMagic = async () => {
     if (!text.trim()) return;
@@ -198,12 +215,29 @@ const App: React.FC = () => {
     setIsExporting(true); setExportType('download');
     try {
       await document.fonts.ready;
-      const dataUrl = await htmlToImage.toPng(cardRef.current, { 
+      
+      const targetElement = cardRef.current;
+      const originalStyle = targetElement.getAttribute('style');
+      
+      targetElement.style.position = 'fixed';
+      targetElement.style.left = '0';
+      targetElement.style.top = '0';
+      targetElement.style.zIndex = '-9999';
+      targetElement.style.opacity = '0';
+      targetElement.style.pointerEvents = 'none';
+      targetElement.style.transform = 'none';
+      targetElement.style.overflow = 'visible';
+      targetElement.style.width = targetElement.offsetWidth + 'px';
+      
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const dataUrl = await htmlToImage.toPng(targetElement, { 
         quality: 1, 
-        pixelRatio: 3, 
-        cacheBust: true,
-        style: { transform: 'none' }
+        pixelRatio: 3
       });
+      
+      targetElement.setAttribute('style', originalStyle || '');
+      
       const link = document.createElement('a');
       link.download = `ArtText-Pro-${Date.now()}.png`; link.href = dataUrl; link.click();
       triggerSuccess();
@@ -234,7 +268,57 @@ const App: React.FC = () => {
   const triggerSuccess = () => { setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000); };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F4F5F7] selection:bg-black selection:text-white">
+    <HelmetProvider>
+      <Helmet>
+        <title>ArtText Studio - AI 文本艺术生成器 | Text Art Generator</title>
+        <meta name="description" content="使用 AI 将文字瞬间转化为令人惊叹的艺术作品。支持多种艺术风格、中英文字体、背景图层自定义，一键导出高清图片。" />
+        <meta name="keywords" content="AI文本艺术生成器, 文字转图片, 艺术字生成, text art generator, AI art, Gemini AI, 文字海报设计, calligraphy, typography design, 中文艺术字" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Eververdants" />
+        <meta name="copyright" content="Eververdants" />
+        <meta name="language" content="zh-CN, en" />
+        <meta name="theme-color" content="#ffffff" />
+        
+        <link rel="canonical" href="https://eververdants.github.io/ArtText-Studio" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://eververdants.github.io/ArtText-Studio" />
+        <meta property="og:title" content="ArtText Studio - AI 文本艺术生成器" />
+        <meta property="og:description" content="使用 AI 将文字瞬间转化为令人惊叹的艺术作品。支持多种艺术风格、中英文字体、背景图层自定义，一键导出高清图片。" />
+        <meta property="og:image" content="https://eververdants.github.io/ArtText-Studio/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="ArtText Studio" />
+        <meta property="og:locale" content="zh_CN" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://eververdants.github.io/ArtText-Studio" />
+        <meta name="twitter:title" content="ArtText Studio - AI 文本艺术生成器" />
+        <meta name="twitter:description" content="使用 AI 将文字瞬间转化为令人惊叹的艺术作品。" />
+        <meta name="twitter:image" content="https://eververdants.github.io/ArtText-Studio/og-image.png" />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "ArtText Studio",
+            "description": "AI-powered text art generator that transforms words into stunning visual masterpieces",
+            "url": "https://eververdants.github.io/ArtText-Studio",
+            "author": {
+              "@type": "Person",
+              "name": "Eververdants"
+            },
+            "applicationCategory": "DesignApplication",
+            "operatingSystem": "Web",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          })}
+        </script>
+      </Helmet>
+      <div className="min-h-screen flex flex-col bg-[#F4F5F7] selection:bg-black selection:text-white">
       <nav className="sticky top-0 z-[100] bg-white/70 backdrop-blur-2xl border-b border-slate-200/50 px-6 py-4 flex items-center justify-between shadow-sm animate-fade-in-up">
         <div className="flex items-center gap-3 group cursor-pointer">
           <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
@@ -250,6 +334,9 @@ const App: React.FC = () => {
           <a href="https://eververdants.github.io" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm group">
             <Globe size={14} className="group-hover:rotate-12 transition-transform" /> <span>{t.author}</span>
           </a>
+          <button onClick={() => setShowApiKeyModal(true)} className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
+            <Key size={14} /> <span>{t.apiKey}</span>
+          </button>
           <button onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')} className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
             <Languages size={14} /> <span>{lang.toUpperCase()}</span>
           </button>
@@ -288,7 +375,7 @@ const App: React.FC = () => {
 
         <div className="lg:col-span-5 lg:sticky lg:top-28 flex flex-col items-center stagger-item animate-fade-in-up delay-200">
           <div className={`w-full transition-all duration-1000 ${isAnalyzing ? 'scale-[0.98] blur-[1px]' : 'scale-100'}`}>
-            <PreviewCard text={text} style={activeStyle} cardRef={cardRef} aspectRatio={aspectRatio} bgImage={bgImage} bgConfig={bgConfig} customScaleOffset={customScale} customLineHeight={customLineHeight} isAnalyzing={isAnalyzing} lang={lang} />
+            <PreviewCard text={text} style={activeStyle} cardRef={cardRef} aspectRatio={aspectRatio} bgImage={bgImage} bgConfig={bgConfig} customScaleOffset={customScale} customLineHeight={customLineHeight} isAnalyzing={isAnalyzing} isExporting={isExporting} lang={lang} />
           </div>
           <div className="mt-10 flex justify-center gap-5 w-full max-w-[500px]">
             <button onClick={handleShuffle} className="flex-1 flex items-center justify-center gap-3 px-8 py-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-black shadow-xl shadow-slate-100 group"><Shuffle size={16} className="group-hover:rotate-180 transition-transform duration-700" /> {t.shuffle}</button>
@@ -455,7 +542,38 @@ const App: React.FC = () => {
         <p className="text-[8px] font-mono text-slate-300 uppercase tracking-widest">SYSTEM CLUSTER 9 • HIGH-RESOLUTION OUTPUT ENABLED</p>
       </footer>
       {showSuccess && <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] px-8 py-4 bg-black text-white rounded-full text-[11px] font-black uppercase tracking-widest shadow-2xl animate-in fade-in slide-in-from-bottom-6 flex items-center gap-3"><Check size={16} className="text-green-400" /> {t.success}</div>}
+      {showApiKeyModal && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-[32px] p-10 shadow-2xl max-w-md w-full mx-4 animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-lg font-black uppercase tracking-widest flex items-center gap-3">
+                <Key size={20} className="text-black" />
+                {t.apiKey}
+              </h2>
+              <button onClick={() => setShowApiKeyModal(false)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
+                <X size={16} className="text-slate-400" />
+              </button>
+            </div>
+            <p className="text-sm text-slate-600 mb-6 leading-relaxed">{t.apiKeyDesc}</p>
+            <input
+              type="password"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              placeholder={t.apiKeyPlaceholder}
+              className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-mono focus:outline-none focus:border-black transition-colors mb-6"
+            />
+            <button
+              onClick={handleSaveApiKey}
+              className="w-full flex items-center justify-center gap-3 py-4 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-[0.97] shadow-xl shadow-black/10"
+            >
+              <Save size={16} />
+              {t.saveApiKey}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
+    </HelmetProvider>
   );
 };
 

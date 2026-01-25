@@ -2,15 +2,29 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AIAnalysisResult, MoodType } from "./types";
 
-const API_KEY = typeof process !== 'undefined' && process.env?.API_KEY;
+const getApiKey = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('gemini_api_key') || null;
+};
 
 let ai: GoogleGenAI | null = null;
-try {
-  if (API_KEY) {
-    ai = new GoogleGenAI({ apiKey: API_KEY });
+
+const initializeAI = () => {
+  const apiKey = getApiKey();
+  if (apiKey) {
+    try {
+      ai = new GoogleGenAI({ apiKey });
+    } catch (error) {
+      console.warn("Failed to initialize GoogleGenAI:", error);
+    }
   }
-} catch (error) {
-  console.warn("Failed to initialize GoogleGenAI:", error);
+};
+
+if (typeof window !== 'undefined') {
+  initializeAI();
+  window.addEventListener('storage', () => {
+    initializeAI();
+  });
 }
 
 export const analyzeTextForStyle = async (text: string, mood?: MoodType): Promise<AIAnalysisResult> => {
