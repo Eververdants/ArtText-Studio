@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtText - AI Copywriting Image Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700;900&family=Zhi+Mang+Xing&family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@300;400;700&family=Ma+Shan+Zheng&family=Long+Cang&family=ZCOOL+KuaiLe&family=Liu+Jian+Mao+Cao&family=Montserrat:wght@800&family=Permanent+Marker&family=Dancing+Script&display=swap" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        :root {
+            --accent: #000000;
+        }
+        body { 
+            font-family: 'Inter', 'Noto Sans SC', sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+        
+        /* Font Utility Classes */
+        .f-sans { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .f-serif { font-family: 'Playfair Display', 'Noto Serif SC', serif; }
+        .f-cursive { font-family: 'Zhi Mang Xing', cursive; }
+        .f-vintage { font-family: 'ZCOOL XiaoWei', serif; }
+        .f-brush { font-family: 'Ma Shan Zheng', cursive; }
+        .f-poetic { font-family: 'Long Cang', cursive; }
+        .f-fun { font-family: 'ZCOOL KuaiLe', sans-serif; }
+        .f-ink { font-family: 'Liu Jian Mao Cao', cursive; }
+        .f-bold { font-family: 'Montserrat', sans-serif; font-weight: 800; }
+        .f-marker { font-family: 'Permanent Marker', cursive; }
+        .f-script { font-family: 'Dancing Script', cursive; }
+        
+        .writing-vertical-rl { 
+            writing-mode: vertical-rl; 
+            text-orientation: mixed;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(0,0,0,0.1); }
+            50% { box-shadow: 0 0 40px 10px rgba(0,0,0,0.05); }
+            100% { box-shadow: 0 0 0 0 rgba(0,0,0,0.1); }
+        }
+
+        .animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+
+        .scan-line {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent);
+            animation: scan 2s linear infinite;
+            z-index: 50;
+        }
+
+        .shutter-open { transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1); }
+        .shutter-closed { transform: translateY(0); transition: transform 0.4s cubic-bezier(0.85, 0, 0.15, 1); }
+
+        /* Textures */
+        .texture-grain::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.15;
+            pointer-events: none;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            filter: contrast(120%) brightness(100%);
+            z-index: 5;
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        
+        .stagger-item { opacity: 0; }
+        
+        @media (max-width: 768px) {
+            .mobile-preview-sticky {
+                position: sticky;
+                top: 64px;
+                z-index: 50;
+            }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "html-to-image": "https://esm.sh/html-to-image@^1.11.13"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-[#F8F9FA] text-gray-900">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

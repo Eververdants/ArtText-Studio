@@ -1,0 +1,43 @@
+{
+  "name": "arttext-studio",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Transform your words into stunning visual masterpieces with AI-powered text art generator",
+  "author": "Eververdants",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eververdants/ArtText-Studio.git"
+  },
+  "homepage": "https://eververdants.github.io/ArtText-Studio",
+  "keywords": [
+    "ai",
+    "text-art",
+    "image-generator",
+    "gemini",
+    "react",
+    "typescript",
+    "vite"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "@google/genai": "^1.38.0",
+    "lucide-react": "^0.563.0",
+    "html-to-image": "^1.11.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
