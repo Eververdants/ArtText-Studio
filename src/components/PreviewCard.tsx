@@ -202,7 +202,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
   return (
     <div
       ref={cardRef}
-      className={`relative w-full max-w-[500px] mx-auto ${isExporting ? '' : 'overflow-hidden'} shadow-2xl ${getAspectClass(display.aspectRatio)} bg-[#0a0a0a] transition-all duration-700 ${isAnalyzing ? 'scale-[0.97] rounded-[48px]' : 'scale-100'} ${display.bgConfig.texture === 'grain' ? 'texture-grain' : ''}`}
+      className={`relative w-full max-w-[500px] mx-auto ${isExporting ? '' : 'overflow-hidden'} shadow-xl sm:shadow-2xl ${getAspectClass(display.aspectRatio)} bg-[#0a0a0a] transition-all duration-700 ${isAnalyzing ? 'scale-[0.97] rounded-3xl sm:rounded-[48px]' : 'scale-100'} ${display.bgConfig.texture === 'grain' ? 'texture-grain' : ''}`}
     >
       {/* 1. 底色层 (Base Color Layer) */}
       <div className="absolute inset-0 z-0 transition-all duration-700" style={bgBaseStyle} />
@@ -228,7 +228,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
       {/* 3. 装饰框层 (Border Layer) */}
       {display.style.layout === LayoutType.MODERN_BORDER && (
         <div
-          className="absolute inset-[8%] border-[8px] md:border-[16px] pointer-events-none transition-all duration-700 z-30 animate-in fade-in zoom-in-95 duration-1000"
+          className="absolute inset-[8%] border-4 sm:border-[8px] md:border-[16px] pointer-events-none transition-all duration-700 z-30 animate-in fade-in zoom-in-95 duration-1000"
           style={{ borderColor: display.style.palette.borderColor || display.style.palette.accent }}
         />
       )}
@@ -240,19 +240,19 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
       >
         <div
           ref={contentRef}
-          className={`relative ${getFontClass(display.style.font)} text-4xl md:text-5xl ${display.style.decoration || ''} transition-all duration-700 ${!isReady ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}
+          className={`relative ${getFontClass(display.style.font)} text-2xl sm:text-4xl md:text-5xl ${display.style.decoration || ''} transition-all duration-700 ${!isReady ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}
           style={textStyle}
         >
           {display.style.layout === LayoutType.LEFT_ALIGNED && (
             <div
-              className="absolute -left-6 top-0 bottom-0 w-1 transition-colors duration-700"
+              className="absolute -left-4 sm:-left-6 top-0 bottom-0 w-0.5 sm:w-1 transition-colors duration-700"
               style={{ backgroundColor: display.style.palette.borderColor || display.style.palette.accent }}
             />
           )}
 
           <div className="break-words antialiased">
             {display.text.split('\n').map((line, idx) => (
-              <p key={idx} className={`${line.trim() === '' ? 'h-6' : 'mb-3'} whitespace-pre-wrap`}>
+              <p key={idx} className={`${line.trim() === '' ? 'h-4 sm:h-6' : 'mb-2 sm:mb-3'} whitespace-pre-wrap`}>
                 {line}
               </p>
             ))}
@@ -266,10 +266,10 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
         className={`absolute inset-0 z-[100] pointer-events-none ${isExporting ? '' : 'overflow-hidden'} transition-all duration-700 ${isShutterClosed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
         style={{ background: 'linear-gradient(to bottom, #111, #000)' }}
       >
-        <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-          <div className="w-14 h-14 border-4 border-white/5 border-t-white/60 rounded-full animate-spin"></div>
-          <span className="text-[10px] font-black tracking-[0.5em] text-white/40 uppercase animate-pulse transition-all">{loadingText}</span>
+        <div className="absolute inset-0 opacity-[0.05] noise-texture"></div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 sm:gap-6">
+          <div className="w-10 h-10 sm:w-14 sm:h-14 border-4 border-white/5 border-t-white/60 rounded-full animate-spin"></div>
+          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.4em] sm:tracking-[0.5em] text-white/40 uppercase animate-pulse transition-all">{loadingText}</span>
         </div>
       </div>
     </div>

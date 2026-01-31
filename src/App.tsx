@@ -6,7 +6,7 @@ import {
   AlignLeft, AlignCenter, Layout, Type, Palette, Frame, MousePointer2,
   Settings2, Columns, Image as ImageIcon, X, Layers, Sliders, Monitor, Move,
   Copy, Check, Share2, Languages, Brush, Sun, Contrast as ShadowIcon, Box,
-  ChevronDown, Maximize2, Globe, Droplets, SunMedium, Focus, Key, Save, Clock, Keyboard
+  ChevronDown, Globe, Droplets, SunMedium, Focus, Key, Save, Clock, Keyboard
 } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 import PreviewCard from './components/PreviewCard';
@@ -434,56 +434,58 @@ const App: React.FC = () => {
         </script>
       </Helmet>
       <div className="min-h-screen flex flex-col bg-[#F4F5F7] selection:bg-black selection:text-white">
-        <nav className="sticky top-0 z-[100] bg-white/70 backdrop-blur-2xl border-b border-slate-200/50 px-6 py-4 flex items-center justify-between shadow-sm animate-fade-in-up">
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-              <Maximize2 size={20} />
+        <nav className="sticky top-0 z-[100] bg-white/70 backdrop-blur-2xl border-b border-slate-200/50 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between shadow-sm animate-fade-in-up">
+          <div className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-xl flex items-center justify-center shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 overflow-hidden border border-slate-100">
+              <img src="/logo.png" alt="ArtText Studio Logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="text-sm font-black tracking-tight uppercase transition-colors group-hover:text-slate-600 leading-none">{t.studio}</h1>
+              <h1 className="text-xs sm:text-sm font-black tracking-tight uppercase transition-colors group-hover:text-slate-600 leading-none">{t.studio}</h1>
               <p className="text-[8px] font-mono text-slate-400 mt-1 uppercase tracking-widest hidden sm:block">Professional Grade V5.1</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <a href="https://eververdants.github.io" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm group">
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            {/* 移动端：仅显示图标 */}
+            <a href="https://eververdants.github.io" target="_blank" rel="noopener noreferrer" className="hidden md:flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm group">
               <Globe size={14} className="group-hover:rotate-12 transition-transform" /> <span>{t.author}</span>
             </a>
-            <button onClick={() => setShowApiKeyModal(true)} className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
-              <Key size={14} /> <span>{t.apiKey}</span>
+            <button onClick={() => setShowApiKeyModal(true)} className="hidden md:flex items-center gap-2 px-3 sm:px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
+              <Key size={14} /> <span className="hidden lg:inline">{t.apiKey}</span>
             </button>
-            <button onClick={() => setShowHistoryPanel(true)} className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
-              <Clock size={14} /> <span>{t.history}</span>
+            <button onClick={() => setShowHistoryPanel(true)} className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
+              <Clock size={14} /> <span className="hidden sm:inline">{t.history}</span>
             </button>
-            <button onClick={() => setShowShortcutsHelp(true)} className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
-              <Keyboard size={14} /> <span>{t.shortcuts}</span>
+            <button onClick={() => setShowShortcutsHelp(true)} className="hidden sm:flex items-center gap-2 px-3 sm:px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
+              <Keyboard size={14} /> <span className="hidden lg:inline">{t.shortcuts}</span>
             </button>
-            <button onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')} className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
-              <Languages size={14} /> <span>{lang.toUpperCase()}</span>
+            <button onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')} className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-black border border-slate-100 transition-all active:scale-95 shadow-sm">
+              <Languages size={14} /> <span className="hidden sm:inline">{lang.toUpperCase()}</span>
             </button>
-            <div className="hidden sm:flex h-6 w-[1px] bg-slate-200 mx-2" />
+            <div className="hidden lg:flex h-6 w-[1px] bg-slate-200 mx-2" />
             <button
               onClick={() => setExportTransparent(!exportTransparent)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all active:scale-95 shadow-sm ${exportTransparent ? 'bg-black text-white border-black' : 'bg-white text-slate-400 hover:text-black border-slate-100'}`}
+              className={`hidden sm:flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all active:scale-95 shadow-sm ${exportTransparent ? 'bg-black text-white border-black' : 'bg-white text-slate-400 hover:text-black border-slate-100'}`}
             >
-              <span>{t.transparent}</span>
+              <span className="hidden lg:inline">{t.transparent}</span>
+              <span className="lg:hidden">T</span>
             </button>
-            <button onClick={handleCopyToClipboard} disabled={isExporting} className="flex items-center gap-2 bg-white text-slate-500 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 hover:text-black transition-all active:scale-95 border border-slate-100 shadow-sm disabled:opacity-50">
-              {exportType === 'copy' ? <RotateCw size={14} className="animate-spin" /> : <Copy size={14} />} <span>{t.copy}</span>
+            <button onClick={handleCopyToClipboard} disabled={isExporting} className="hidden sm:flex items-center gap-1 sm:gap-2 bg-white text-slate-500 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 hover:text-black transition-all active:scale-95 border border-slate-100 shadow-sm disabled:opacity-50">
+              {exportType === 'copy' ? <RotateCw size={14} className="animate-spin" /> : <Copy size={14} />} <span className="hidden lg:inline">{t.copy}</span>
             </button>
-            <button onClick={handleDownload} disabled={isExporting} className="flex items-center gap-2 bg-black text-white px-7 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-black/10 disabled:opacity-50">
-              {exportType === 'download' ? <RotateCw size={14} className="animate-spin" /> : <Download size={14} />} <span>{isExporting && exportType === 'download' ? t.saving : t.save}</span>
+            <button onClick={handleDownload} disabled={isExporting} className="flex items-center gap-1 sm:gap-2 bg-black text-white px-3 sm:px-7 py-2 sm:py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-black/10 disabled:opacity-50">
+              {exportType === 'download' ? <RotateCw size={14} className="animate-spin" /> : <Download size={14} />} <span className="hidden sm:inline">{isExporting && exportType === 'download' ? t.saving : t.save}</span>
             </button>
           </div>
         </nav>
 
-        <main className="flex-1 max-w-[1700px] mx-auto w-full p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-3 space-y-8 lg:sticky lg:top-28 stagger-item animate-fade-in-up delay-100">
-            <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 border border-slate-100 group transition-all hover:shadow-2xl">
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-5 group-focus-within:text-black">{t.draftTitle}</label>
-              <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder={t.placeholder} className="w-full h-48 p-0 bg-transparent border-0 outline-none resize-none text-lg font-medium leading-relaxed custom-scrollbar placeholder:text-slate-200" />
+        <main className="flex-1 max-w-[1700px] mx-auto w-full p-3 sm:p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-10 items-start">
+          <div className="lg:col-span-3 space-y-4 sm:space-y-8 lg:sticky lg:top-28 stagger-item animate-fade-in-up delay-100">
+            <div className="bg-white rounded-2xl sm:rounded-[32px] p-4 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 group transition-all hover:shadow-2xl">
+              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-3 sm:mb-5 group-focus-within:text-black">{t.draftTitle}</label>
+              <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder={t.placeholder} className="w-full h-32 sm:h-48 p-0 bg-transparent border-0 outline-none resize-none text-base sm:text-lg font-medium leading-relaxed custom-scrollbar placeholder:text-slate-200" />
             </div>
-            <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
+            <div className="bg-white rounded-2xl sm:rounded-[32px] p-4 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 space-y-4 sm:space-y-8">
               <div className="space-y-4">
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">{t.aspectRatio}</label>
                 <div className="flex p-1.5 bg-slate-50 rounded-2xl gap-2 border border-slate-100">
@@ -504,84 +506,84 @@ const App: React.FC = () => {
             <div className={`w-full transition-all duration-1000 ${isAnalyzing ? 'scale-[0.98] blur-[1px]' : 'scale-100'}`}>
               <PreviewCard text={text} style={activeStyle} cardRef={cardRef} aspectRatio={aspectRatio} bgImage={bgImage} bgConfig={bgConfig} customScaleOffset={customScale} customLineHeight={customLineHeight} isAnalyzing={isAnalyzing} isExporting={isExporting} lang={lang} />
             </div>
-            <div className="mt-10 flex justify-center gap-5 w-full max-w-[500px]">
-              <button onClick={handleShuffle} className="flex-1 flex items-center justify-center gap-3 px-8 py-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-black shadow-xl shadow-slate-100 group"><Shuffle size={16} className="group-hover:rotate-180 transition-transform duration-700" /> {t.shuffle}</button>
-              <button onClick={() => fileInputRef.current?.click()} className="flex-1 flex items-center justify-center gap-3 px-8 py-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-black shadow-xl shadow-slate-100 group"><ImageIcon size={16} className="group-hover:scale-110 transition-transform" /> {t.bg}</button>
+            <div className="mt-4 sm:mt-10 flex justify-center gap-3 sm:gap-5 w-full max-w-[500px]">
+              <button onClick={handleShuffle} className="flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-8 py-3 sm:py-5 bg-white border border-slate-200 rounded-xl sm:rounded-2xl hover:bg-slate-50 transition-all text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-black shadow-xl shadow-slate-100 group"><Shuffle size={14} className="sm:w-4 sm:h-4 group-hover:rotate-180 transition-transform duration-700" /> <span className="hidden sm:inline">{t.shuffle}</span></button>
+              <button onClick={() => fileInputRef.current?.click()} className="flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-8 py-3 sm:py-5 bg-white border border-slate-200 rounded-xl sm:rounded-2xl hover:bg-slate-50 transition-all text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-black shadow-xl shadow-slate-100 group"><ImageIcon size={14} className="sm:w-4 sm:h-4 group-hover:scale-110 transition-transform" /> <span className="hidden sm:inline">{t.bg}</span></button>
               <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
             </div>
           </div>
 
-          <div className="lg:col-span-4 space-y-8 stagger-item animate-fade-in-up delay-300">
-            <div className="bg-white rounded-[40px] overflow-hidden shadow-2xl shadow-slate-200 border border-slate-100 flex flex-col h-[calc(100vh-200px)]">
-              <div className="flex border-b border-slate-100 p-2 gap-2 bg-slate-50/30">
+          <div className="lg:col-span-4 space-y-4 sm:space-y-8 stagger-item animate-fade-in-up delay-300">
+            <div className="bg-white rounded-2xl sm:rounded-[40px] overflow-hidden shadow-2xl shadow-slate-200 border border-slate-100 flex flex-col h-[60vh] sm:h-[70vh] lg:h-[calc(100vh-200px)]">
+              <div className="flex border-b border-slate-100 p-1.5 sm:p-2 gap-1.5 sm:gap-2 bg-slate-50/30">
                 {[{ id: 'parameters', label: t.params, icon: <Sliders size={14} /> }, { id: 'presets', label: t.styles, icon: <TypeIcon size={14} /> }, { id: 'background', label: t.bg, icon: <Layers size={14} /> }].map((tab) => (
-                  <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all ${activeTab === tab.id ? 'bg-white text-black shadow-sm ring-1 ring-slate-100' : 'text-slate-400 hover:text-slate-600'}`}>
-                    {tab.icon} {tab.label}
+                  <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-2 sm:py-4 flex items-center justify-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest rounded-xl sm:rounded-2xl transition-all ${activeTab === tab.id ? 'bg-white text-black shadow-sm ring-1 ring-slate-100' : 'text-slate-400 hover:text-slate-600'}`}>
+                    {tab.icon} <span className="hidden sm:inline">{tab.label}</span>
                   </button>
                 ))}
               </div>
 
-              <div className="p-10 overflow-y-auto custom-scrollbar flex-1">
+              <div className="p-4 sm:p-6 lg:p-10 overflow-y-auto custom-scrollbar flex-1">
                 <div className={`transition-all duration-500 ${isAnalyzing ? 'opacity-30' : 'opacity-100'}`}>
                   {activeTab === 'parameters' && (
                     <div className="space-y-12 animate-scale-in">
                       <div className="space-y-8">
                         <CustomSelect label={t.typography} value={activeStyle.font} options={FONT_OPTIONS} onChange={(f) => setActiveStyle(p => ({ ...p, font: f }))} icon={<Brush size={14} />} />
-                        <div className="grid grid-cols-5 gap-3">
+                        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3">
                           {[LayoutType.LEFT_ALIGNED, LayoutType.CENTERED, LayoutType.BOTTOM_LEFT, LayoutType.ELEGANT_VERTICAL, LayoutType.MODERN_BORDER].map(l => (
-                            <button key={l} onClick={() => setActiveStyle(p => ({ ...p, layout: l }))} className={`aspect-square flex items-center justify-center rounded-2xl transition-all border ${activeStyle.layout === l ? 'bg-black text-white border-black shadow-2xl scale-110' : 'bg-slate-50 text-slate-400 border-slate-100 hover:bg-white hover:border-slate-300'}`}>
-                              {l === LayoutType.CENTERED && <AlignCenter size={18} />}
-                              {l === LayoutType.LEFT_ALIGNED && <AlignLeft size={18} />}
-                              {l === LayoutType.BOTTOM_LEFT && <MousePointer2 size={18} />}
-                              {l === LayoutType.ELEGANT_VERTICAL && <Columns size={18} />}
-                              {l === LayoutType.MODERN_BORDER && <Frame size={18} />}
+                            <button key={l} onClick={() => setActiveStyle(p => ({ ...p, layout: l }))} className={`aspect-square flex items-center justify-center rounded-xl sm:rounded-2xl transition-all border ${activeStyle.layout === l ? 'bg-black text-white border-black shadow-2xl scale-105 sm:scale-110' : 'bg-slate-50 text-slate-400 border-slate-100 hover:bg-white hover:border-slate-300 active:bg-white'}`}>
+                              {l === LayoutType.CENTERED && <AlignCenter size={16} className="sm:w-[18px] sm:h-[18px]" />}
+                              {l === LayoutType.LEFT_ALIGNED && <AlignLeft size={16} className="sm:w-[18px] sm:h-[18px]" />}
+                              {l === LayoutType.BOTTOM_LEFT && <MousePointer2 size={16} className="sm:w-[18px] sm:h-[18px]" />}
+                              {l === LayoutType.ELEGANT_VERTICAL && <Columns size={16} className="sm:w-[18px] sm:h-[18px]" />}
+                              {l === LayoutType.MODERN_BORDER && <Frame size={16} className="sm:w-[18px] sm:h-[18px]" />}
                             </button>
                           ))}
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="p-5 bg-slate-50 rounded-3xl border border-slate-100 space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-100 space-y-3 sm:space-y-4">
                           <label className="text-[10px] font-black uppercase text-slate-400 flex items-center gap-2"><Palette size={12} /> {t.chromatics}</label>
-                          <div className="flex gap-4">
+                          <div className="flex gap-3 sm:gap-4">
                             <div className="relative group flex-1">
-                              <input type="color" value={activeStyle.palette.background} onChange={(e) => updatePalette({ background: e.target.value })} className="w-full h-12 rounded-xl border-0 bg-transparent cursor-pointer shadow-sm group-hover:shadow-md transition-all" />
+                              <input type="color" value={activeStyle.palette.background} onChange={(e) => updatePalette({ background: e.target.value })} className="w-full h-10 sm:h-12 rounded-xl border-0 bg-transparent cursor-pointer shadow-sm group-hover:shadow-md transition-all" />
                               <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
                             </div>
                             <div className="relative group flex-1">
-                              <input type="color" value={activeStyle.palette.text} onChange={(e) => updatePalette({ text: e.target.value })} className="w-full h-12 rounded-xl border-0 bg-transparent cursor-pointer shadow-sm group-hover:shadow-md transition-all" />
+                              <input type="color" value={activeStyle.palette.text} onChange={(e) => updatePalette({ text: e.target.value })} className="w-full h-10 sm:h-12 rounded-xl border-0 bg-transparent cursor-pointer shadow-sm group-hover:shadow-md transition-all" />
                               <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
                             </div>
                           </div>
                         </div>
-                        <div className="p-5 bg-slate-50 rounded-3xl border border-slate-100 flex flex-col justify-between">
-                          <div className="flex items-center justify-between">
-                            <label className="text-[10px] font-black uppercase text-slate-400 flex items-center gap-2"><ShadowIcon size={12} /> {t.shadow}</label>
-                            <button onClick={() => updateShadow({ enabled: !activeStyle.shadow?.enabled })} className={`w-9 h-5 rounded-full transition-all relative ${activeStyle.shadow?.enabled ? 'bg-black' : 'bg-slate-300'}`}>
-                              <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${activeStyle.shadow?.enabled ? 'left-5' : 'left-1'}`} />
+                        <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-100 flex flex-col justify-between space-y-3 sm:space-y-0">
+                          <div className="flex items-center justify-between gap-3">
+                            <label className="text-[10px] font-black uppercase text-slate-400 flex items-center gap-1.5 sm:gap-2 flex-shrink-0"><ShadowIcon size={12} /> <span className="hidden sm:inline">{t.shadow}</span><span className="sm:hidden">阴影</span></label>
+                            <button onClick={() => updateShadow({ enabled: !activeStyle.shadow?.enabled })} className={`w-11 h-6 sm:w-9 sm:h-5 rounded-full transition-all relative flex-shrink-0 ${activeStyle.shadow?.enabled ? 'bg-black' : 'bg-slate-300'}`}>
+                              <div className={`absolute top-1 w-4 h-4 sm:w-3 sm:h-3 rounded-full bg-white transition-all ${activeStyle.shadow?.enabled ? 'left-6 sm:left-5' : 'left-1'}`} />
                             </button>
                           </div>
-                          <div className="flex items-center justify-between mt-4">
-                            <label className="text-[10px] font-black uppercase text-slate-400 flex items-center gap-2"><Box size={12} /> {t.stroke}</label>
-                            <button onClick={() => updateStroke({ enabled: !activeStyle.stroke?.enabled })} className={`w-9 h-5 rounded-full transition-all relative ${activeStyle.stroke?.enabled ? 'bg-black' : 'bg-slate-300'}`}>
-                              <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${activeStyle.stroke?.enabled ? 'left-5' : 'left-1'}`} />
+                          <div className="flex items-center justify-between gap-3 sm:mt-4">
+                            <label className="text-[10px] font-black uppercase text-slate-400 flex items-center gap-1.5 sm:gap-2 flex-shrink-0"><Box size={12} /> <span className="hidden sm:inline">{t.stroke}</span><span className="sm:hidden">描边</span></label>
+                            <button onClick={() => updateStroke({ enabled: !activeStyle.stroke?.enabled })} className={`w-11 h-6 sm:w-9 sm:h-5 rounded-full transition-all relative flex-shrink-0 ${activeStyle.stroke?.enabled ? 'bg-black' : 'bg-slate-300'}`}>
+                              <div className={`absolute top-1 w-4 h-4 sm:w-3 sm:h-3 rounded-full bg-white transition-all ${activeStyle.stroke?.enabled ? 'left-6 sm:left-5' : 'left-1'}`} />
                             </button>
                           </div>
                         </div>
                       </div>
-                      <div className="space-y-10 p-8 bg-slate-50/50 rounded-[32px] border border-slate-100 shadow-inner">
-                        <div className="space-y-5 group">
+                      <div className="space-y-6 sm:space-y-10 p-4 sm:p-8 bg-slate-50/50 rounded-2xl sm:rounded-[32px] border border-slate-100 shadow-inner">
+                        <div className="space-y-3 sm:space-y-5 group">
                           <div className="flex justify-between text-[10px] font-black uppercase text-slate-400 group-hover:text-black transition-colors"><span>{t.glyphScale}</span><span className="text-black bg-white px-2 rounded-lg shadow-sm">{customScale.toFixed(2)}x</span></div>
                           <input type="range" min="0.5" max="1.5" step="0.01" value={customScale} onChange={(e) => setCustomScale(parseFloat(e.target.value))} className="w-full h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-black hover:bg-slate-300 transition-all" />
                         </div>
-                        <div className="space-y-5 group">
+                        <div className="space-y-3 sm:space-y-5 group">
                           <div className="flex justify-between text-[10px] font-black uppercase text-slate-400 group-hover:text-black transition-colors"><span>{t.lineRhythm}</span><span className="text-black bg-white px-2 rounded-lg shadow-sm">{customLineHeight.toFixed(2)}</span></div>
                           <input type="range" min="0.8" max="2.5" step="0.05" value={customLineHeight} onChange={(e) => setCustomLineHeight(parseFloat(e.target.value))} className="w-full h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-black hover:bg-slate-300 transition-all" />
                         </div>
                       </div>
                       {(activeStyle.shadow?.enabled || activeStyle.stroke?.enabled) && (
-                        <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 animate-in fade-in slide-in-from-top-4">
                           {activeStyle.shadow?.enabled && (
-                            <div className="p-6 bg-white rounded-3xl border border-slate-100 space-y-5 shadow-sm">
+                            <div className="p-4 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-100 space-y-3 sm:space-y-5 shadow-sm">
                               <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest">{t.shadowBlur}</span>
                               <input type="range" min="0" max="50" value={activeStyle.shadow.blur} onChange={(e) => updateShadow({ blur: parseInt(e.target.value) })} className="w-full h-1 bg-slate-100 rounded-full appearance-none accent-black" />
                               <div className="flex items-center gap-2">
@@ -591,7 +593,7 @@ const App: React.FC = () => {
                             </div>
                           )}
                           {activeStyle.stroke?.enabled && (
-                            <div className="p-6 bg-white rounded-3xl border border-slate-100 space-y-5 shadow-sm">
+                            <div className="p-4 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-100 space-y-3 sm:space-y-5 shadow-sm">
                               <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest">{t.strokeWidth}</span>
                               <input type="range" min="1" max="10" value={activeStyle.stroke.width} onChange={(e) => updateStroke({ width: parseInt(e.target.value) })} className="w-full h-1 bg-slate-100 rounded-full appearance-none accent-black" />
                               <div className="flex items-center gap-2">
@@ -616,24 +618,24 @@ const App: React.FC = () => {
                   )}
 
                   {activeTab === 'background' && (
-                    <div className="space-y-12 animate-scale-in">
-                      <div className="space-y-6">
+                    <div className="space-y-8 sm:space-y-12 animate-scale-in">
+                      <div className="space-y-4 sm:space-y-6">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2 ml-1"><Sun size={14} /> {t.texture}</label>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
                           {['none', 'grain'].map(tex => (
-                            <button key={tex} onClick={() => updateBgConfig({ texture: tex as any })} className={`py-4 rounded-2xl text-[10px] font-black uppercase transition-all border ${bgConfig.texture === tex ? 'bg-black text-white shadow-xl scale-[1.02]' : 'bg-slate-50 text-slate-400 border-slate-100 hover:bg-white hover:border-slate-300'}`}>
+                            <button key={tex} onClick={() => updateBgConfig({ texture: tex as any })} className={`py-3 sm:py-4 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase transition-all border ${bgConfig.texture === tex ? 'bg-black text-white shadow-xl scale-[1.02]' : 'bg-slate-50 text-slate-400 border-slate-100 hover:bg-white hover:border-slate-300'}`}>
                               {tex === 'none' ? '纯净画布' : '复古纤维'}
                             </button>
                           ))}
                         </div>
                       </div>
 
-                      <div className="space-y-8 p-8 bg-slate-50/50 rounded-[32px] border border-slate-100 shadow-inner">
-                        <div className="space-y-6 group">
+                      <div className="space-y-6 sm:space-y-8 p-4 sm:p-8 bg-slate-50/50 rounded-2xl sm:rounded-[32px] border border-slate-100 shadow-inner">
+                        <div className="space-y-4 sm:space-y-6 group">
                           <div className="flex justify-between text-[10px] font-black uppercase text-slate-400 flex items-center gap-2"><span><Droplets size={12} /> {t.opacity}</span><span className="text-black bg-white px-2 rounded-lg shadow-sm">{Math.round(bgConfig.opacity * 100)}%</span></div>
                           <input type="range" min="0" max="1" step="0.01" value={bgConfig.opacity} onChange={(e) => updateBgConfig({ opacity: parseFloat(e.target.value) })} className="w-full h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-black hover:bg-slate-300" />
                         </div>
-                        <div className="space-y-6 group">
+                        <div className="space-y-4 sm:space-y-6 group">
                           <div className="flex justify-between text-[10px] font-black uppercase text-slate-400 flex items-center gap-2"><span><SunMedium size={12} /> {t.brightness}</span><span className="text-black bg-white px-2 rounded-lg shadow-sm">{Math.round(bgConfig.brightness * 100)}%</span></div>
                           <input type="range" min="0.2" max="2" step="0.01" value={bgConfig.brightness} onChange={(e) => updateBgConfig({ brightness: parseFloat(e.target.value) })} className="w-full h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-black hover:bg-slate-300" />
                         </div>
@@ -685,34 +687,63 @@ const App: React.FC = () => {
 
         {(showApiKeyModal || isApiKeyModalClosing) && (
           <div className={`fixed inset-0 z-[300] flex items-center justify-center bg-black/50 backdrop-blur-sm ${isApiKeyModalClosing ? 'animate-fade-out' : 'animate-fade-in'}`}>
-            <div className={`bg-white rounded-[32px] p-10 shadow-2xl max-w-md w-full mx-4 ${isApiKeyModalClosing ? 'animate-scale-out-modal' : 'animate-scale-in-modal'}`}>
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-lg font-black uppercase tracking-widest flex items-center gap-3">
-                  <Key size={20} className="text-black" />
+            <div className={`bg-white rounded-2xl sm:rounded-[32px] p-6 sm:p-10 shadow-2xl max-w-md w-[calc(100%-2rem)] sm:w-full mx-4 ${isApiKeyModalClosing ? 'animate-scale-out-modal' : 'animate-scale-in-modal'}`}>
+              <div className="flex items-center justify-between mb-6 sm:mb-8">
+                <h2 className="text-base sm:text-lg font-black uppercase tracking-widest flex items-center gap-2 sm:gap-3">
+                  <Key size={18} className="sm:w-5 sm:h-5 text-black" />
                   {t.apiKey}
                 </h2>
-                <button onClick={handleCloseApiKeyModal} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-                  <X size={16} className="text-slate-400" />
+                <button onClick={handleCloseApiKeyModal} className="p-2 hover:bg-slate-100 active:scale-95 rounded-xl transition-all">
+                  <X size={14} className="sm:w-4 sm:h-4 text-slate-400" />
                 </button>
               </div>
-              <p className="text-sm text-slate-600 mb-6 leading-relaxed">{t.apiKeyDesc}</p>
+              <p className="text-xs sm:text-sm text-slate-600 mb-4 sm:mb-6 leading-relaxed">{t.apiKeyDesc}</p>
               <input
                 type="password"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder={t.apiKeyPlaceholder}
-                className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-mono focus:outline-none focus:border-black transition-colors mb-6"
+                className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-slate-50 border-2 border-slate-100 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-mono focus:outline-none focus:border-black transition-colors mb-4 sm:mb-6"
               />
               <button
                 onClick={handleSaveApiKey}
-                className="w-full flex items-center justify-center gap-3 py-4 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-[0.97] shadow-xl shadow-black/10"
+                className="w-full flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-4 bg-black text-white rounded-xl sm:rounded-2xl text-[10px] sm:text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-[0.97] shadow-xl shadow-black/10"
               >
-                <Save size={16} />
+                <Save size={14} className="sm:w-4 sm:h-4" />
                 {t.saveApiKey}
               </button>
             </div>
           </div>
         )}
+
+        {/* 移动端底部快捷操作栏 */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[90] bg-white/90 backdrop-blur-xl border-t border-slate-200 px-4 py-3 safe-area-bottom">
+          <div className="flex items-center justify-around gap-2 max-w-md mx-auto">
+            <button
+              onClick={handleCopyToClipboard}
+              disabled={isExporting}
+              className="flex flex-col items-center gap-1 px-3 py-2 rounded-xl hover:bg-slate-100 active:bg-slate-100 transition-all disabled:opacity-50 min-w-[60px]"
+            >
+              {exportType === 'copy' ? <RotateCw size={18} className="animate-spin" /> : <Copy size={18} />}
+              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-600">{t.copy}</span>
+            </button>
+            <button
+              onClick={handleDownload}
+              disabled={isExporting}
+              className="flex flex-col items-center gap-1 px-4 py-2 bg-black text-white rounded-xl active:scale-95 transition-all disabled:opacity-50 min-w-[70px] shadow-lg"
+            >
+              {exportType === 'download' ? <RotateCw size={18} className="animate-spin" /> : <Download size={18} />}
+              <span className="text-[9px] font-bold uppercase tracking-wider">{isExporting && exportType === 'download' ? t.saving : t.save}</span>
+            </button>
+            <button
+              onClick={() => setShowApiKeyModal(true)}
+              className="flex flex-col items-center gap-1 px-3 py-2 rounded-xl hover:bg-slate-100 active:bg-slate-100 transition-all min-w-[60px]"
+            >
+              <Key size={18} />
+              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-600">API</span>
+            </button>
+          </div>
+        </div>
       </div>
     </HelmetProvider>
   );

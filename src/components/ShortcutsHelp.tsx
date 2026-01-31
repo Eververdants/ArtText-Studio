@@ -46,37 +46,37 @@ const ShortcutsHelp: React.FC<ShortcutsHelpProps> = ({ isOpen, onClose, lang }) 
                 onClick={onClose}
             />
 
-            <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-[32px] shadow-2xl z-[201] animate-in zoom-in-95 duration-300 p-8">
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center">
-                            <Keyboard size={20} className="text-slate-600" />
+            <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-md bg-white rounded-2xl sm:rounded-[32px] shadow-2xl z-[201] animate-in zoom-in-95 duration-300 p-4 sm:p-8 max-h-[90vh] overflow-y-auto">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-slate-100 rounded-xl flex items-center justify-center">
+                            <Keyboard size={18} className="sm:w-5 sm:h-5 text-slate-600" />
                         </div>
-                        <h2 className="text-lg font-black uppercase tracking-tight">{t.title}</h2>
+                        <h2 className="text-base sm:text-lg font-black uppercase tracking-tight">{t.title}</h2>
                     </div>
                     <button
                         onClick={onClose}
-                        className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-all"
+                        className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 active:scale-95 transition-all"
                     >
-                        <X size={20} className="text-slate-400" />
+                        <X size={18} className="sm:w-5 sm:h-5 text-slate-400" />
                     </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                     {shortcuts.map((shortcut, index) => (
                         <div
                             key={index}
-                            className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-all"
+                            className="flex items-center justify-between p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl hover:bg-slate-100 active:bg-slate-100 transition-all"
                         >
-                            <span className="text-sm text-slate-600">{shortcut.description}</span>
-                            <div className="flex items-center gap-1">
+                            <span className="text-xs sm:text-sm text-slate-600 flex-1 pr-2">{shortcut.description}</span>
+                            <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
                                 {shortcut.keys.map((key, i) => (
                                     <React.Fragment key={i}>
-                                        <kbd className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 shadow-sm">
+                                        <kbd className="px-2 sm:px-3 py-1 sm:py-1.5 bg-white border border-slate-200 rounded-lg text-[10px] sm:text-xs font-bold text-slate-700 shadow-sm whitespace-nowrap">
                                             {key}
                                         </kbd>
                                         {i < shortcut.keys.length - 1 && (
-                                            <span className="text-slate-400 text-xs mx-1">+</span>
+                                            <span className="text-slate-400 text-[10px] sm:text-xs mx-0.5 sm:mx-1">+</span>
                                         )}
                                     </React.Fragment>
                                 ))}

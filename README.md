@@ -1,243 +1,239 @@
-# ArtText Studio - AI 文字艺术生成器
+# ArtText Studio
 
 <div align="center">
 
-![ArtText Studio](https://img.shields.io/badge/ArtText-Studio-black?style=for-the-badge)
+![ArtText Studio Banner](https://img.shields.io/badge/ArtText-Studio-black?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-19.2.3-61DAFB?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript)
 ![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=for-the-badge&logo=vite)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**将文字转化为令人惊艳的视觉艺术作品**
+**Transform your words into stunning visual masterpieces**
 
-[在线体验](https://eververdants.github.io/ArtText-Studio) | [功能特性](#功能特性) | [快速开始](#快速开始)
+[Live Demo](https://eververdants.github.io/ArtText-Studio) · [中文文档](./README.zh-CN.md)
 
 </div>
 
----
+## Overview
 
-## ✨ 项目简介
+ArtText Studio is an AI-powered text art generator that transforms your words into beautiful visual posters. Whether it's poetry, quotes, or everyday text, create unique artistic compositions with rich typography, intelligent layouts, and AI-generated backgrounds.
 
-ArtText Studio 是一款基于 AI 的文字艺术生成工具，能够将您的文字内容转化为精美的视觉海报。无论是诗词、名言还是日常文案，都能通过丰富的字体、布局和 AI 生成的背景，创造出独特的艺术作品。
+## Key Features
 
-### 🎯 核心功能
+🤖 **AI-Powered Analysis** - Leverages Google Gemini AI to analyze text sentiment and recommend optimal visual styles
 
-- **🤖 AI 智能分析** - 使用 Google Gemini AI 分析文本情感，自动推荐最佳视觉风格
-- **🎨 丰富的预设样式** - 40+ 精心设计的预设风格，涵盖现代、古典、赛博等多种风格
-- **🖼️ AI 背景生成** - 基于文本内容和情绪自动生成艺术背景图
-- **✍️ 多样字体支持** - 11 种精选字体，包括现代几何、经典衬线、书法、毛笔等
-- **📐 灵活布局系统** - 5 种布局模式：居中、左对齐、底部对齐、竖排、边框装饰
-- **🎛️ 深度参数调节** - 精细控制字体大小、行高、阴影、描边、背景效果等
-- **🌍 双语界面** - 支持中文/英文界面切换
-- **📱 响应式设计** - 完美适配桌面和移动设备
-- **💾 多种导出方式** - 支持高清下载（3x 分辨率）和一键复制到剪贴板
+🎨 **40+ Preset Styles** - Curated collection spanning modern, classical, cyberpunk, and more aesthetic themes
 
----
+🖼️ **AI Background Generation** - Automatically creates artistic backgrounds based on text content and mood
 
-## 🚀 快速开始
+✍️ **11 Premium Fonts** - Carefully selected typefaces including geometric, serif, calligraphy, and brush styles
 
-### 环境要求
+📐 **Flexible Layouts** - 5 layout modes: center, left-align, bottom-align, vertical, and decorative border
+
+🎛️ **Fine-Grained Controls** - Precise adjustment of font size, line height, shadows, strokes, and background effects
+
+🌍 **Bilingual Interface** - Seamless switching between Chinese and English
+
+📱 **Responsive Design** - Optimized for both desktop and mobile devices
+
+💾 **Multiple Export Options** - High-resolution download (3x scale) and one-click copy to clipboard
+
+## Quick Start
+
+### Prerequisites
 
 - Node.js >= 18.0.0
-- npm 或 yarn 或 pnpm
+- npm, yarn, or pnpm
 
-### 安装步骤
+### Installation
 
-1. **克隆项目**
+1. Clone the repository
 
 ```bash
 git clone https://github.com/Eververdants/ArtText-Studio.git
 cd ArtText-Studio
 ```
 
-2. **安装依赖**
+2. Install dependencies
 
 ```bash
 npm install
-# 或
-yarn install
-# 或
+# or
 pnpm install
 ```
 
-3. **配置 API 密钥**
+3. Configure API key
 
-创建 `.env.local` 文件并添加您的 Google Gemini API 密钥：
+Create a `.env.local` file and add your Google Gemini API key:
 
 ```env
 GEMINI_API_KEY=your_api_key_here
 ```
 
-> 💡 获取 API 密钥：访问 [Google AI Studio](https://aistudio.google.com/app/apikey) 免费获取
+Get your free API key at [Google AI Studio](https://aistudio.google.com/app/apikey)
 
-4. **启动开发服务器**
+4. Start development server
 
 ```bash
 npm run dev
 ```
 
-访问 `http://localhost:3000` 即可开始使用！
+Visit `http://localhost:5173` to start creating!
 
----
+## Usage Guide
 
-## 📦 构建与部署
+### Basic Workflow
 
-### 本地构建
+1. **Enter Text** - Type or paste your text in the left panel
+2. **Choose Aspect Ratio** - Select 1:1, 4:5, or 9:16 canvas ratio
+3. **Set Mood** - Pick from Minimal, Zen, Classic, and other artistic moods
+4. **AI Explore** - Click "AI Art Explore" for automatic style generation
+5. **Manual Adjustments** - Fine-tune typography, layout, and colors in the right panel
+6. **Export** - Download in high resolution or copy to clipboard
+
+### Advanced Features
+
+**Parameter Panel**
+- Font selection with 11 curated typefaces
+- 5 professional layout modes
+- Custom background and text colors
+- Shadow and stroke effects toggle
+- Character weight and line rhythm controls
+
+**Style Gallery**
+- Browse 40+ preset styles
+- One-click style application
+- Real-time preview
+
+**Background Engine**
+- Paper textures (none, grain, etc.)
+- Image adjustments (brightness, blur, contrast, opacity)
+- Position controls for background images
+- Custom image upload support
+
+## Tech Stack
+
+**Core**
+- React 19.2.3 - UI framework
+- TypeScript 5.8 - Type safety
+- Vite 6.2 - Build tool
+
+**Styling**
+- Tailwind CSS 4.1 - Utility-first CSS
+- Lucide React - Icon library
+- Google Fonts - Multi-language typography
+
+**AI & Image Processing**
+- @google/genai - Google Gemini AI integration
+- html-to-image - High-quality image export
+- react-helmet-async - SEO optimization
+
+## Project Structure
+
+```
+ArtText-Studio/
+├── src/
+│   ├── components/          # React components
+│   │   ├── PreviewCard.tsx  # Main preview component
+│   │   ├── HistoryPanel.tsx # History management
+│   │   └── ShortcutsHelp.tsx # Keyboard shortcuts
+│   ├── services/            # Service layer
+│   │   ├── geminiService.ts # AI integration
+│   │   └── historyService.ts # Local storage
+│   ├── hooks/               # Custom React hooks
+│   ├── types/               # TypeScript definitions
+│   ├── utils/               # Utilities and constants
+│   ├── styles/              # Global styles
+│   ├── App.tsx              # Main application
+│   └── main.tsx             # Entry point
+├── public/                  # Static assets
+├── dist/                    # Build output
+└── index.html               # HTML template
+```
+
+## Build & Deployment
+
+### Local Build
 
 ```bash
 npm run build
 ```
 
-构建产物将生成在 `dist` 目录。
+Build artifacts will be generated in the `dist` directory.
 
-### 预览构建结果
+### Preview Build
 
 ```bash
 npm run preview
 ```
 
-### 部署到 GitHub Pages
+### Deploy to GitHub Pages
 
-项目已配置自动部署工作流。只需：
+The project includes automated deployment workflow:
 
-1. 在 GitHub 仓库的 Settings > Secrets and variables > Actions 中添加密钥：
-   - `GEMINI_API_KEY`: 您的 Google Gemini API 密钥
+1. Add your API key to GitHub repository secrets:
+   - Go to Settings > Secrets and variables > Actions
+   - Add `GEMINI_API_KEY` with your Google Gemini API key
 
-2. 推送代码到 `main` 分支：
+2. Push to `main` branch:
 
 ```bash
-git add .
-git commit -m "feat: update project"
 git push origin main
 ```
 
-3. GitHub Actions 将自动构建并部署到 GitHub Pages
+3. GitHub Actions will automatically build and deploy to GitHub Pages
 
----
+## Roadmap
 
-## 🎨 使用指南
+- [x] Basic text art generation
+- [x] AI-powered style recommendations
+- [x] AI background generation
+- [x] Multiple export formats
+- [x] Bilingual interface
+- [x] History management
+- [x] Keyboard shortcuts
+- [ ] Additional font options
+- [ ] Animation effects
+- [ ] Batch processing
+- [ ] Template marketplace
+- [ ] Community sharing
 
-### 基础使用
+## Contributing
 
-1. **输入文字** - 在左侧文本框输入您想要艺术化的文字
-2. **选择画幅** - 选择 1:1、4:5 或 9:16 的画布比例
-3. **设置意境** - 选择 Minimal、Zen、Classic 等艺术意境
-4. **AI 探索** - 点击"AI 艺术探索"让 AI 自动生成最佳效果
-5. **手动调整** - 在右侧面板精细调整字体、布局、颜色等参数
-6. **导出作品** - 点击"高清下载"或"复制内容"保存您的作品
+Contributions are welcome! Please feel free to submit issues and pull requests.
 
-### 高级功能
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-#### 参数面板
-- **字体选择** - 11 种精选字体风格
-- **布局模式** - 5 种专业排版布局
-- **色彩调节** - 自定义背景色和文字颜色
-- **特效开关** - 启用/禁用阴影和描边效果
-- **精细控制** - 调节字符比重和行间韵律
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and development process.
 
-#### 风格画廊
-- 浏览 40+ 预设风格
-- 一键应用喜欢的样式
-- 实时预览效果
+## License
 
-#### 背景引擎
-- **纸张质感** - 无、颗粒等纹理效果
-- **图像调节** - 亮度、模糊、对比度、不透明度
-- **位置控制** - 调整背景图片的显示位置
-- **上传图片** - 使用自定义背景图片
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
-
-## 🛠️ 技术栈
-
-### 核心框架
-- **React 19.2.3** - 用户界面构建
-- **TypeScript 5.8** - 类型安全
-- **Vite 6.2** - 快速构建工具
-
-### UI 与样式
-- **Tailwind CSS** - 实用优先的 CSS 框架
-- **Lucide React** - 精美的图标库
-- **Google Fonts** - 多语言字体支持
-
-### AI 与图像处理
-- **@google/genai** - Google Gemini AI 集成
-- **html-to-image** - 高质量图像导出
-
----
-
-## 📂 项目结构
-
-```
-ArtText-Studio/
-├── components/          # React 组件
-│   └── PreviewCard.tsx # 预览卡片组件
-├── App.tsx             # 主应用组件
-├── constants.tsx       # 常量和预设配置
-├── types.ts            # TypeScript 类型定义
-├── geminiService.ts    # AI 服务集成
-├── index.tsx           # 应用入口
-├── index.html          # HTML 模板
-├── vite.config.ts      # Vite 配置
-├── tsconfig.json       # TypeScript 配置
-└── package.json        # 项目依赖
-```
-
----
-
-## 🎯 功能路线图
-
-- [x] 基础文字艺术生成
-- [x] AI 智能风格推荐
-- [x] AI 背景图生成
-- [x] 多种导出方式
-- [x] 双语界面支持
-- [ ] 更多字体选择
-- [ ] 动画效果支持
-- [ ] 批量处理功能
-- [ ] 模板市场
-- [ ] 社区分享功能
-
----
-
-## 🤝 贡献指南
-
-欢迎提交 Issue 和 Pull Request！
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
-
----
-
-## 📄 开源协议
-
-本项目采用 MIT 协议开源 - 查看 [LICENSE](LICENSE) 文件了解详情
-
----
-
-## 👨‍💻 作者
+## Author
 
 **Eververdants**
 
 - GitHub: [@Eververdants](https://github.com/Eververdants)
-- 个人主页: [https://eververdants.github.io](https://eververdants.github.io)
+- Website: [https://eververdants.github.io](https://eververdants.github.io)
 
----
+## Acknowledgments
 
-## 🙏 致谢
-
-- [Google Gemini](https://ai.google.dev/) - 提供强大的 AI 能力
-- [Lucide Icons](https://lucide.dev/) - 精美的图标库
-- [Tailwind CSS](https://tailwindcss.com/) - 优秀的 CSS 框架
-- [Vite](https://vitejs.dev/) - 快速的构建工具
+- [Google Gemini](https://ai.google.dev/) - Powerful AI capabilities
+- [Lucide Icons](https://lucide.dev/) - Beautiful icon library
+- [Tailwind CSS](https://tailwindcss.com/) - Excellent CSS framework
+- [Vite](https://vitejs.dev/) - Lightning-fast build tool
+- [React](https://react.dev/) - UI framework
 
 ---
 
 <div align="center">
 
-**如果这个项目对您有帮助，请给一个 ⭐️ Star 支持一下！**
+**If this project helps you, please give it a ⭐️ Star!**
 
 Made with ❤️ by Eververdants
 

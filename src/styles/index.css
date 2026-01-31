@@ -115,14 +115,22 @@ body {
   inset: 0;
   opacity: 0.15;
   pointer-events: none;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  background-image: url("/noise.svg");
+  background-size: 200px 200px;
   filter: contrast(120%) brightness(100%);
   z-index: 5;
+}
+
+/* 噪点效果 - 使用本地 SVG */
+.noise-texture {
+  background-image: url("/noise.svg");
+  background-size: 200px 200px;
 }
 
 /* Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
@@ -132,12 +140,83 @@ body {
   border-radius: 10px;
 }
 
+/* 移动端优化 */
+@media (max-width: 640px) {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+}
+
 .stagger-item { opacity: 0; }
 
-@media (max-width: 768px) {
+/* 移动端触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  /* 增大移动端点击区域 */
+  button {
+    min-height: 44px;
+  }
+}
+
+/* 安全区域支持 (iOS notch) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* 移动端布局优化 */
+@media (max-width: 1024px) {
   .mobile-preview-sticky {
     position: sticky;
     top: 64px;
     z-index: 50;
+  }
+  
+  /* 移动端减少动画以提升性能 */
+  * {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* 为底部操作栏留出空间 */
+  body {
+    padding-bottom: 80px;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 375px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .text-xs {
+    font-size: 0.65rem;
+  }
+  
+  .text-sm {
+    font-size: 0.75rem;
+  }
+}
+
+/* 横屏模式优化 */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .mobile-landscape-adjust {
+    max-height: 70vh;
   }
 }
