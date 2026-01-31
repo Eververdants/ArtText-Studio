@@ -1,5 +1,5 @@
 
-import { FontStyle, LayoutType, TextStylePreset } from './types';
+import { FontStyle, LayoutType, TextStylePreset } from '../types/index';
 
 export const PALETTES = [
   { background: '#F4F1EA', text: '#323232', accent: '#A68B6A', borderColor: '#A68B6A', name: '书香门第' },
@@ -71,9 +71,9 @@ export const PRESETS: TextStylePreset[] = [
 export const generateVariants = (baseText: string): TextStylePreset[] => {
   const fonts = [FontStyle.SANS, FontStyle.SERIF, FontStyle.CALLIGRAPHY, FontStyle.VINTAGE_SONG, FontStyle.BRUSH, FontStyle.POETIC];
   const layouts = [LayoutType.CENTERED, LayoutType.LEFT_ALIGNED, LayoutType.BOTTOM_LEFT, LayoutType.ELEGANT_VERTICAL, LayoutType.MODERN_BORDER];
-  
+
   const variants: TextStylePreset[] = [];
-  for(let i=0; i<40; i++) {
+  for (let i = 0; i < 40; i++) {
     const palette = PALETTES[i % PALETTES.length];
     variants.push({
       id: `gen-${i}`,

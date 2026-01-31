@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { AIAnalysisResult, MoodType } from "./types";
+import { AIAnalysisResult, MoodType } from "../types/index";
 
 const getApiKey = (): string | null => {
   if (typeof window === 'undefined') return null;
