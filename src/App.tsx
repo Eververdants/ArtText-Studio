@@ -258,6 +258,12 @@ const App: React.FC = () => {
 
       const link = document.createElement('a');
       link.download = `ArtText-Pro-${Date.now()}.png`; link.href = dataUrl; link.click();
+
+      // 保存到历史记录
+      if (text.trim()) {
+        handleSaveToHistory();
+      }
+
       triggerSuccess();
     } catch (err) { console.error('Export Error:', err); } finally { setIsExporting(false); setExportType(null); }
   };
@@ -278,6 +284,12 @@ const App: React.FC = () => {
       const blob = await htmlToImage.toBlob(cardRef.current, { pixelRatio: 2 });
       if (blob && navigator.clipboard && window.ClipboardItem) {
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+
+        // 保存到历史记录
+        if (text.trim()) {
+          handleSaveToHistory();
+        }
+
         triggerSuccess();
       }
     } catch (err) { console.error('Clipboard Error:', err); } finally { setIsExporting(false); setExportType(null); }
@@ -308,16 +320,6 @@ const App: React.FC = () => {
     setCustomScale(item.customScale);
     setCustomLineHeight(item.customLineHeight);
   }, []);
-
-  // 自动保存到历史记录（当用户进行重要操作时）
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (text.trim()) {
-        handleSaveToHistory();
-      }
-    }, 2000); // 2秒后自动保存
-    return () => clearTimeout(timer);
-  }, [text, activeStyle.id, aspectRatio, activeMood]);
 
   // 快捷键配置
   useKeyboardShortcuts([
@@ -437,7 +439,7 @@ const App: React.FC = () => {
         <nav className="sticky top-0 z-[100] bg-white/70 backdrop-blur-2xl border-b border-slate-200/50 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between shadow-sm animate-fade-in-up">
           <div className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-xl flex items-center justify-center shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 overflow-hidden border border-slate-100">
-              <img src="/logo.png" alt="ArtText Studio Logo" className="w-full h-full object-cover" />
+              <img src="./logo.png" alt="ArtText Studio Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-xs sm:text-sm font-black tracking-tight uppercase transition-colors group-hover:text-slate-600 leading-none">{t.studio}</h1>

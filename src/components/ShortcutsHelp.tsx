@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Keyboard } from 'lucide-react';
 
 interface ShortcutsHelpProps {
@@ -8,6 +8,8 @@ interface ShortcutsHelpProps {
 }
 
 const ShortcutsHelp: React.FC<ShortcutsHelpProps> = ({ isOpen, onClose, lang }) => {
+    const [isClosing, setIsClosing] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const t = {
         zh: {
             title: '键盘快捷键',
@@ -37,16 +39,39 @@ const ShortcutsHelp: React.FC<ShortcutsHelpProps> = ({ isOpen, onClose, lang }) 
         { keys: ['Ctrl', 'H'], description: t.history },
     ];
 
-    if (!isOpen) return null;
+    useEffect(() => {
+        if (isOpen) {
+            setIsClosing(false);
+            // 延迟一帧触发进场动画
+            requestAnimationFrame(() => {
+                setIsVisible(true);
+            });
+        } else {
+            setIsVisible(false);
+        }
+    }, [isOpen]);
+
+    const handleClose = () => {
+        setIsVisible(false);
+        setIsClosing(true);
+        setTimeout(() => {
+            setIsClosing(false);
+            onClose();
+        }, 200);
+    };
+
+    if (!isOpen && !isClosing) return null;
 
     return (
         <>
             <div
-                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] animate-in fade-in duration-300"
-                onClick={onClose}
+                className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] transition-opacity duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'
+                    }`}
+                onClick={handleClose}
             />
 
-            <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-md bg-white rounded-2xl sm:rounded-[32px] shadow-2xl z-[201] animate-in zoom-in-95 duration-300 p-4 sm:p-8 max-h-[90vh] overflow-y-auto">
+            <div className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-md bg-white rounded-2xl sm:rounded-[32px] shadow-2xl z-[201] p-4 sm:p-8 max-h-[90vh] overflow-y-auto transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}>
                 <div className="flex items-center justify-between mb-4 sm:mb-6">
                     <div className="flex items-center gap-2 sm:gap-3">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 bg-slate-100 rounded-xl flex items-center justify-center">
@@ -55,7 +80,7 @@ const ShortcutsHelp: React.FC<ShortcutsHelpProps> = ({ isOpen, onClose, lang }) 
                         <h2 className="text-base sm:text-lg font-black uppercase tracking-tight">{t.title}</h2>
                     </div>
                     <button
-                        onClick={onClose}
+                        onClick={handleClose}
                         className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 active:scale-95 transition-all"
                     >
                         <X size={18} className="sm:w-5 sm:h-5 text-slate-400" />
