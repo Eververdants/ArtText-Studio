@@ -155,11 +155,17 @@ body {
   button, a {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    user-select: none;
   }
   
   /* 增大移动端点击区域 */
   button {
     min-height: 44px;
+  }
+  
+  /* 优化滚动性能 */
+  * {
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -185,17 +191,22 @@ body {
     animation-duration: 0.2s !important;
     transition-duration: 0.2s !important;
   }
-  
-  /* 为底部操作栏留出空间 */
-  body {
-    padding-bottom: 80px;
-  }
 }
 
 /* 平板适配 */
 @media (min-width: 641px) and (max-width: 1024px) {
   .tablet-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* 平板优化间距 */
+  main {
+    padding: 1.5rem !important;
+  }
+  
+  /* 平板优化卡片尺寸 */
+  .preview-card-container {
+    max-width: 450px;
   }
 }
 
@@ -212,11 +223,124 @@ body {
   .text-sm {
     font-size: 0.75rem;
   }
+  
+  /* 超小屏减少内边距 */
+  main {
+    padding: 0.75rem !important;
+  }
+  
+  /* 优化按钮间距 */
+  nav {
+    padding: 0.5rem !important;
+  }
 }
 
 /* 横屏模式优化 */
 @media (max-width: 1024px) and (orientation: landscape) {
   .mobile-landscape-adjust {
     max-height: 70vh;
+  }
+  
+  /* 横屏时优化布局 */
+  main {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  /* 横屏时减小卡片高度 */
+  .preview-card-container {
+    max-height: 80vh;
+  }
+}
+
+/* 小屏幕优化预览卡片 */
+@media (max-width: 640px) {
+  .preview-card-container {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+  
+  /* 小屏优化控制面板高度 */
+  .control-panel {
+    max-height: 50vh;
+  }
+}
+
+/* 中等屏幕优化 */
+@media (min-width: 641px) and (max-width: 768px) {
+  .preview-card-container {
+    max-width: 420px;
+  }
+}
+
+/* 触摸设备滚动优化 */
+@supports (-webkit-overflow-scrolling: touch) {
+  .custom-scrollbar {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* 防止移动端双击缩放 */
+@media (max-width: 1024px) {
+  * {
+    touch-action: pan-y pan-x;
+  }
+  
+  button, a, input, textarea {
+    touch-action: manipulation;
+  }
+}
+
+/* 优化移动端字体渲染 */
+@media (max-width: 640px) {
+  body {
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
+
+/* 平板横屏特殊优化 */
+@media (min-width: 641px) and (max-width: 1024px) and (orientation: landscape) {
+  main {
+    grid-template-columns: 1fr 2fr 1fr !important;
+  }
+}
+
+/* 小屏幕导航栏优化 */
+@media (max-width: 640px) {
+  nav {
+    gap: 0.25rem !important;
+  }
+  
+  nav button {
+    padding: 0.5rem !important;
+    font-size: 0.55rem !important;
+  }
+  
+  nav .hidden-mobile {
+    display: none !important;
+  }
+}
+
+/* 优化移动端模态框 */
+@media (max-width: 640px) {
+  .modal-content {
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+    margin: 1rem !important;
+  }
+}
+
+/* 性能优化：减少移动端重绘 */
+@media (max-width: 1024px) {
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }

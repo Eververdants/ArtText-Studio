@@ -202,7 +202,7 @@ const PreviewCard: React.FC<PreviewCardProps> = ({
   return (
     <div
       ref={cardRef}
-      className={`relative w-full max-w-[500px] mx-auto ${isExporting ? '' : 'overflow-hidden'} shadow-xl sm:shadow-2xl ${getAspectClass(display.aspectRatio)} bg-[#0a0a0a] transition-all duration-700 ${isAnalyzing ? 'scale-[0.97] rounded-3xl sm:rounded-[48px]' : 'scale-100'} ${display.bgConfig.texture === 'grain' ? 'texture-grain' : ''}`}
+      className={`relative w-full max-w-[500px] mx-auto ${isExporting ? '' : 'overflow-hidden'} shadow-xl sm:shadow-2xl ${getAspectClass(display.aspectRatio)} bg-[#0a0a0a] transition-all duration-700 ${isAnalyzing ? 'scale-[0.97]' : 'scale-100'} rounded-2xl sm:rounded-3xl md:rounded-[48px] ${display.bgConfig.texture === 'grain' ? 'texture-grain' : ''}`}
     >
       {/* 1. 底色层 (Base Color Layer) */}
       <div className="absolute inset-0 z-0 transition-all duration-700" style={bgBaseStyle} />
