@@ -39,7 +39,8 @@ jobs:
       - name: Build
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: pnpm run build
+          NODE_ENV: production
+        run: pnpm run build -- --mode production
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
